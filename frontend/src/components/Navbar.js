@@ -32,7 +32,7 @@ const Navbar = () => {
                             <Link className={`nav-link ${location.pathname === "/home" ? "active" : ""}`} aria-current="page" to={!localStorage.getItem("token") ? `/` : "/home"}>Home</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className={`nav-link ${location.pathname === "/new" ? "active" : ""}`} to="/new"> Add Note</Link>
+                            <Link className={`nav-link ${location.pathname === "/new" ? "active" : ""}`} to={!localStorage.getItem("token") ? `/` : "/new"}> Add Note</Link>
                         </li>
                         <li className="nav-item">
                             <Link className={`nav-link ${location.pathname === "/about" ? "active" : ""}`} to="/about"> About</Link>

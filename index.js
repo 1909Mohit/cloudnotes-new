@@ -20,19 +20,24 @@ app.use('/api/auth', require('./routes/auth'))
 app.use('/api/notes', require('./routes/notes'))
 
 // deployment
-__dirname = path.resolve();
 if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname,'../build')))
-
+    // Set static folder
+    app.use(express.static('frontend/build'));
+  
     app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'build', 'index.html'))
-    });
-} else {
-    app.get('/', (req, res) => {
-        res.send('Server is Running! 🚀');
+      res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
     });
 }
 
+app.all('*', (req, res) => {
+    res.send('Page does not exist ');
+})
+
+app.use((err, req, res, next) => {
+    const { statusCode = 500 } = err;
+    if (!err.message) err.message = 'Oh No, Something Went Wrong!'
+    res.status(statusCode).render('error', { err })
+})
 
 app.listen(port, () => {
   console.log(`iNotebook backend listening at http://localhost:${port}`)
